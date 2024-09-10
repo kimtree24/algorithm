@@ -1,7 +1,7 @@
 def solution(brown, yellow):
     ans = []
-    end = int(yellow ** 1/2)
-    for i in range(1, yellow+1):
+    end = int(yellow ** (1/2))
+    for i in range(1, end+1):
         if yellow % i == 0:
             y_row = yellow / i
             y_column = i
