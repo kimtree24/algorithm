@@ -4,7 +4,6 @@ def solution(s):
     temp = []
     ans = []
     
-    48-57
     for i in range(len(s)):
         if 48<=ord(s[i])<=57:
             ans.append(s[i])
