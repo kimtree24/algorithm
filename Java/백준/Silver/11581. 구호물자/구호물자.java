@@ -1,79 +1,52 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
-    static List<Integer>[] graph;
-    static boolean isCycle = false;
-    static int[] visited;
+    static int flag = 0;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-        int numCross = Integer.parseInt(br.readLine().trim());
-        graph = new ArrayList[numCross + 1];
-
-        for (int i = 1; i <= numCross; i++) {
-            graph[i] = new ArrayList<>();
+        int N = Integer.parseInt(br.readLine());
+        List<Integer>[] nodes = new ArrayList[N + 1];
+        for (int i = 1; i <= N; i++) {
+            nodes[i] = new ArrayList<>();
         }
 
-        for (int i = 1; i < numCross; i++) {
-            String line = br.readLine();
-            while (line != null && line.trim().isEmpty()) {
-                line = br.readLine();
-            }
-
-            int m = 0;
-            try {
-                m = Integer.parseInt(line.trim());
-            } catch (NumberFormatException e) {
-                System.out.println("CYCLE");
-                return;
-            }
-
-            if (m > 0) {
-                line = br.readLine();
-                while (line != null && line.trim().isEmpty()) {
-                    line = br.readLine();
-                }
-
-                if (line == null) {
-                    System.out.println("CYCLE");
-                    return;
-                }
-
-                StringTokenizer st = new StringTokenizer(line);
-                while (st.hasMoreTokens()) {
-                    String token = st.nextToken();
-                    try {
-                        int nextCross = Integer.parseInt(token);
-                        graph[i].add(nextCross);
-                    } catch (NumberFormatException e) {
-                        System.out.println("CYCLE");
-                        return;
-                    }
-                }
+        for (int i = 1; i < N; i++) {
+            br.readLine();
+            st = new StringTokenizer(br.readLine());
+            while (st.hasMoreTokens()) {
+                int nextNodeNum = Integer.parseInt(st.nextToken());
+                nodes[i].add(nextNodeNum);
             }
         }
 
-        visited = new int[numCross + 1];
-        dfs(1);
-
-        System.out.println(isCycle ? "CYCLE" : "NO CYCLE");
+        Dfs(1, N, nodes, new boolean[N + 1]);
+        System.out.print(flag == 2 ? "CYCLE" : "NO CYCLE");
     }
 
-    public static void dfs(int node) {
-        if (isCycle) return;
-        visited[node] = 1;
+    private static void Dfs(int cur, int N, List<Integer>[] nodes, boolean[] visited) {
+        if (flag == 2) return;
+        if (cur == N) {
+            flag = 1;
+            return;
+        }
+        if (visited[cur]) {
+            flag = 2;
+            return;
+        }
+        visited[cur] = true;
 
-        for (int next : graph[node]) {
-            if (visited[next] == 0) {
-                dfs(next);
-            } else if (visited[next] == 1) {
-                isCycle = true;
-                return;
-            }
+        for (int next : nodes[cur]) {
+            Dfs(next, N, nodes, visited);
         }
 
-        visited[node] = 2;
+        visited[cur] = false;
     }
 }
