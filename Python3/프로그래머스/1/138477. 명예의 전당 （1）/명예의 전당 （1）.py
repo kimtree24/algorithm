@@ -1,18 +1,14 @@
+import heapq
+
 def solution(k, score):
-    table = [] # 명예의 전당
-    result = [] # 일일 최저점
-    
-    for i in score:
-        # 명예의 전당 비어있다면 일단 다 넣음
-        if len(table) < k:
-            table.append(i)
-            table.sort()
-        # 명예의 전당 다 찼다면 가장 낮은 점수와 교체후 sort
+    heap = [] # 명예의 전당 (최소 힙)
+    result = []
+
+    for s in score:
+        if len(heap) < k:
+            heapq.heappush(heap, s) # 그대로 넣기
         else:
-            if table[0] < i:
-                table[0] = i
-                table.sort()
-        # 최저점 기록
-        result.append(table[0])
+            if heap[0] < s: # 최소값보다 크면 교체
+                heapq.heapreplace(heap, s)
+        result.append(heap[0])
     return result
-        
