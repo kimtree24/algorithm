@@ -8,6 +8,6 @@ def solution(a, b, n):
     while cur_bot >= a:
         new_bot = (cur_bot // a) * b # 이번 교환으로 새로 받을 수 있는 콜라
         result += new_bot # 새로 받은 만큼 add
-        cur_bot = cur_bot - ((new_bot / b) * a) + new_bot # 지금 가진 병 갱신
+        cur_bot = cur_bot % a + new_bot # 지금 가진 병 갱신
     
     return result
