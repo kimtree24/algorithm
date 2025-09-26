@@ -1,25 +1,31 @@
 def solution(babbling):
-    can_speak = ["aya", "ye", "woo", "ma"]
     result = 0
 
+    # 각 단어별 판단
     for word in babbling:
+        # 이전 조각 트리거용
+        prev = ''
         idx = 0
-        prev = ""
-        valid = True
-
+        trigger = True
+        # 지금 판단 단어 순회
         while idx < len(word):
+            can_speak = ['aya', 'ye', 'woo', 'ma']
             matched = False
-            for speak in can_speak:
-                if word.startswith(speak, idx) and speak != prev:
-                    idx += len(speak)
-                    prev = speak
+            if not trigger:
+                break
+            for i in can_speak:
+                if i == prev:
+                    continue
+                elif word[idx:].startswith(i):
+                    prev = i
+                    idx += len(i)
                     matched = True
                     break
             if not matched:
-                valid = False
-                break
-
-        if valid:
+                trigger = False
+        if trigger:
             result += 1
-
+    
     return result
+                    
+                    
