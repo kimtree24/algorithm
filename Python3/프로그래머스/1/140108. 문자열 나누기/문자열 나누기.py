@@ -1,5 +1,5 @@
 def solution(s):
-    result = []
+    result = 0
     i = 0
     while i < len(s):
         diff_cnt = 0
@@ -13,6 +13,6 @@ def solution(s):
             s_idx += 1
             if same_cnt == diff_cnt:
                 break
-        result.append(s[i:s_idx])
+        result += 1
         i = s_idx
-    return len(result)
+    return result
