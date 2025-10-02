@@ -1,12 +1,5 @@
+from collections import Counter
+
 def solution(participant, completion):
-    participant.sort()
-    completion.sort()
-    
-    for i in range(len(completion)):
-        if participant[i] == completion[i]:
-            continue
-        else:
-            return participant[i]
-    return participant[-1]
-                
-        
+    ans = Counter(participant) - Counter(completion)
+    return list(ans.keys())[0]
