@@ -9,12 +9,13 @@ def solution(schedules, timelogs, startday):
                 ok_day += 1
                 continue
             else:
-                time_bound = 0
-                1169
-                if (schedules[sch_idx] + 10) % 100 >= 60:
-                    time_bound = ((schedules[sch_idx] + 10) // 100 + 1) * 100 + (schedules[sch_idx] + 10) % 100 - 60
-                else:
-                    time_bound = schedules[sch_idx] + 10
+                time_bound = (schedules[sch_idx] + 10)
+                hour = time_bound // 100
+                minute = time_bound % 100
+                
+                if minute >= 60:
+                    time_bound = (hour + 1) * 100 + minute - 60
+                    
                 if each_time <= time_bound:
                     ok_day += 1
         if ok_day == 7:
