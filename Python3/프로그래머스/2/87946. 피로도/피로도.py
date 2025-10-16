@@ -1,25 +1,15 @@
-from itertools import permutations
-
 def solution(k, dungeons):
-    
-    permutation_list = list(permutations(dungeons))
-    
-    result = 0
-    
-    for case in permutation_list:
-        case_k = k
-        case_result = 0
-        for dungeon in case:
-            limit_p, use_p = dungeon
-            
-            if case_k >= limit_p:
-                case_k -= use_p
-                case_result += 1
-            else:
-                break
-        
-        if result < case_result:
-            result = case_result
-    return result
-            
-        
+    n = len(dungeons)
+    used = [False] * n
+
+    def dfs(energy, cnt):
+        max_cnt = cnt
+        for i in range(n):
+            need, cost = dungeons[i]
+            if not used[i] and energy >= need:
+                used[i] = True
+                max_cnt = max(max_cnt, dfs(energy - cost, cnt + 1))
+                used[i] = False
+        return max_cnt
+
+    return dfs(k, 0)
