@@ -10,16 +10,29 @@ def is_prime(number):
     return True
 
 def solution(numbers):
-    digits = list(numbers)
+    nums = list(numbers)
+    n = len(nums)
+    used = [False] * n
+    made = set()
     
-    num_set = set()
+    def dfs(path_chars):
+        if path_chars:
+            num = int(''.join(path_chars))
+            made.add(num)
+
+        used_in_this_depth = set()
+        for i in range(n):
+            if used[i]:
+                continue
+            ch = nums[i]
+            if ch in used_in_this_depth:
+                continue
+            used_in_this_depth.add(ch)
+            
+            used[i] = True
+            dfs(path_chars + [ch])
+            used[i] = False
+    dfs([])
     
-    for i in range(1, len(digits) + 1):
-        for p in permutations(digits, i):
-            num_set.add(int(''.join(p)))
-    cnt = 0
-    for num in num_set:
-        if is_prime(num):
-            cnt+=1
-    return cnt
+    return sum(1 for x in made if is_prime(x))
     
