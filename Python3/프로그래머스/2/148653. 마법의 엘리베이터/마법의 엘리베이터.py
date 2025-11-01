@@ -1,4 +1,4 @@
-def solution(storey: int) -> int:
+def solution(storey):
     ans = 0
     while storey > 0:
         d = storey % 10
