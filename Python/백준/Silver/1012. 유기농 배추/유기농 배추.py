@@ -1,34 +1,38 @@
-import sys
 from collections import deque
+import sys
+input = sys.stdin.readline
+
 t = int(input())
-dx = [0,0,-1,1]
-dy = [-1,1,0,0]
-
-def bfs(graph, x, y):
-    q = deque()
-    q.append([x,y])
-    graph[x][y] = 0
-
-    while q:
-        x, y = q.popleft()
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if 0 <= nx < m and 0 <= ny < n and graph[nx][ny] == 1:
-                q.append([nx, ny])
-                graph[nx][ny] = 0
 
 for _ in range(t):
-    m, n, k = map(int, sys.stdin.readline().rstrip().split())
-    graph = [[0] * n for _ in range(m)]
-
+    r, c, k = map(int, input().split())
+    # 배추 좌표 만들기
+    grid = [[0 for _ in range(c)] for _ in range(r)]
     for _ in range(k):
-        i, j = map(int, sys.stdin.readline().rstrip().split())
-        graph[i][j] = 1
-    count = 0
-    for i in range(m):
-        for j in range(n):
-            if graph[i][j] == 1:
-                bfs(graph, i, j)
-                count += 1
-    print(count)
+        e_r, e_c = map(int, input().split())
+        grid[e_r][e_c] = 1
+    
+    # 방문여부
+    visit = [[False for _ in range(c)] for _ in range(r)]
+    # 상하좌우
+    di = [(-1,0), (1,0), (0,-1), (0,1)]
+    ans = 0
+    # bfs 탐색
+    def bfs(sr, sc):
+        q = deque()
+        q.append((sr,sc))
+        visit[sr][sc] = True
+        while q:
+            cr, cc = q.popleft()
+            for dr, dc in di:
+                nr, nc = cr + dr, cc + dc
+                if 0 <= nr < r and 0 <= nc < c:
+                    if not visit[nr][nc] and grid[nr][nc] == 1:
+                        visit[nr][nc] = True
+                        q.append((nr, nc))
+    for i in range(r):
+        for j in range(c):
+            if grid[i][j] == 1 and not visit[i][j]:
+                bfs(i, j)
+                ans += 1
+    print(ans)
