@@ -1,17 +1,15 @@
 import sys
-import math
-from collections import defaultdict
+from collections import Counter
+
 input = sys.stdin.readline
 
 n = input().strip()
 
-num_list = list(n)
-num_dict = defaultdict(int)
-for num in num_list:
-    if num == '9' or num == '6':
-        num_dict['6'] += 1
-    else:
-        num_dict[num] += 1
-if num_dict.get('6'):
-    num_dict['6'] = math.ceil(num_dict.get('6') / 2)
-print(max(num_dict.values()))
+cnt = Counter(n)
+
+six_nine = cnt['6'] + cnt['9']
+cnt['6'] = (six_nine + 1) // 2
+if '9' in cnt:
+    del cnt['9']
+    
+print(max(cnt.values()))
