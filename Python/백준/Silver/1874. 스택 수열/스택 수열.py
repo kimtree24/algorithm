@@ -1,22 +1,28 @@
-n = int(input())
+import sys
+input = sys.stdin.readline
 
-stack, ans = [], []
-isCan = True
-now = 1
-for _ in range(n):
-    num = int(input())
-    while now <= num:
-        stack.append(now)
-        ans.append("+")
-        now +=1
-    if num == stack[-1]:
-        stack.pop()
-        ans.append("-")
-    else:
-        print("NO")
-        isCan = False
+n = int(input().strip())
+stack = []
+cnt = 0
+result = []
+cant = False
+for i in range(n):
+    cur = int(input().strip())
+    flag = True
+    if stack and cur < stack[-1]:
+        cant = True
         break
- 
-if isCan:
-    for i in ans:
+    while flag:
+        if cur >= cnt:
+            cnt += 1
+            stack.append(cnt)
+            result.append('+')
+        if stack[-1] == cur:
+            stack.pop()
+            result.append('-')
+            flag = False
+if cant:
+    print('NO')
+else:
+    for i in result:
         print(i)
