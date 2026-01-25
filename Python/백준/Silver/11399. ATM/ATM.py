@@ -1,12 +1,14 @@
 import sys
+input = sys.stdin.readline
 
-n = int(input())
-time_list = list(map(int, sys.stdin.readline().rstrip().split()))
+n = int(input().strip())
+p_list = sorted(map(int, input().strip().split()))
 
-time_list.sort()
-all_sum = 0
-temp_sum = 0
-for i in time_list:
-    temp_sum += i
-    all_sum += temp_sum
-print(all_sum)
+times = [0 for _ in range(n)]
+
+for i in range(n):
+    if i == 0:
+        times[0] = p_list[0]
+    else:
+        times[i] = times[i - 1] + p_list[i]
+print(sum(times))
