@@ -37,7 +37,7 @@ def solution(places):
                                     
                                     # 대각선
                                     else:
-                                        if place[r][nc] != 'X' or place[nr][c] != 'X':
+                                        if not (place[r][nc] == 'X' and place[nr][c] == 'X'):
                                             flag = 0
                                 
                         if flag == 0:
